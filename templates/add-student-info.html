@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/bulma.css">
+    <title>Add Student Feedback</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container box">
+            <form action="/submit" method="POST" class="columns">
+                <div class="column is-4">
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus/>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control has-text-centered">
+                            <a class="button is-info" onclick="selectStudent()">Search for student</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="column is-6 is-offset-2">
+                    <div class="field">
+                        <p class="control">
+                            AO-1 <input class="input" type="number" name="rate-ao1" min="0" max="100" placeholder="Rate 0-100"/>
+                        </p>
+                    </div>
+
+                    <div class="field">
+                        <p class="control">
+                            AO-2 <input class="input" type="number" name="rate-ao2" min="0" max="100" placeholder="Rate 0-100"/>
+                        </p>
+                    </div>
+
+                    <div class="field">
+                        <p class="control">
+                            AO-3 <input class="input" type="number" name="rate-ao3" min="0" max="100" placeholder="Rate 0-100"/>
+                        </p>
+                    </div>
+
+                    <div class="field">
+                        <p class="control has-text-centered">
+                            <button type="submit" class="button is-success">Submit Feedback</button>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>
+
+<script>
+var d = document;
+
+
+function selectStudent() {
+    var xhr = new XMLHttpRequest();
+    var name = d.getElementById("name").value;
+    xhr.open("POST", "http://localhost:5000/fetch_student/" + name);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.status < 202 && xhr.readyState > 3) {
+            console.log("[+] Request sent success . . .");
+            var resp = JSON.parse(xhr.responseText);
+            console.log(resp);
+        }
+
+    }
+    xhr.send();
+}
+
+</script>
+
+
+<!-- 
+
+1. Knowledge understanding
+    - criterion 1
+    - criterion 2
+
+2. Data handling / provlem solving
+    - use of data [to be rated]
+    - other parameter
+
+ -->

@@ -34,7 +34,6 @@ def home():
 
 @app.route('/fetch_student/<name>', methods=['POST'])
 def fetch_student(name):
-    print("======================================")
     cur = mysql.connect().cursor()
     q = "SELECT `id` FROM `students` WHERE `name`=%s"
     cur.execute(q, name)
@@ -43,13 +42,13 @@ def fetch_student(name):
     if res:
         resp = json.dumps({
             "out": res[0],
-            "status_code": 200
+            "status_code": "pass"
         })
         return resp
 
     resp = json.dumps({
         "out": "Error - match not found",
-        "status_code": "400"
+        "status_code": "fail"
     })
     return resp
 

@@ -9,23 +9,29 @@
 </head>
 <body>
     <section class="section">
-        <div class="">
-            <form action="/submit" method="POST" class="columns">
-                <div class="column is-4">
-                    <div class="field">
-                        <p class="control">
-                            <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus/>
-                        </p>
-                    </div>
-                    <div class="field">
-                        <p class="control has-text-centered">
-                            <a class="button is-info" onclick="selectStudent()">Search for student</a>
-                        </p>
-                    </div>
+        <form action="/submit" method="POST" class="columns">
+            <div class="column is-4">
+                <div class="field">
+                    <p class="control">
+                        <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus/>
+                    </p>
                 </div>
+                <div class="field">
+                    <p class="control has-text-centered">
+                        <a class="button is-info" onclick="selectStudent()">Select Student</a>
+                    </p>
+                </div>
+            </div>
 
-                <div class="column is-8">
-                    <table class="table box is-striped is-narrow is-fullwidth" style="overflow: scroll;">
+            <div class="column is-8">
+                <div class="box has-text-info" id="success-msg" style="display: none">
+                    Everything looks good. You may now proceed to entering feedback.
+                </div>
+                <div class="box has-text-danger" id="error-msg" style="display: none">
+                    No student found. Please enter the exact full name and try again.
+                </div>
+                <div id="feedback-form" style="display: none">
+                    <table class="table box is-striped is-narrow is-fullwidth" style="overflow: scroll">
                         <thead>
                             <th></th>
                             <th>Assignment 1</th>
@@ -75,46 +81,53 @@
                         <p class="control has-text-centered">
                             <button type="submit" class="button is-success">Submit Feedback</button>
                         </p>
-                    </div> 
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </section>
-
 </body>
 </html>
 
 <script>
+
 var d = document;
 
 
 function selectStudent() {
     var xhr = new XMLHttpRequest();
     var name = d.getElementById("name").value;
+
     xhr.open("POST", "http://localhost:5000/fetch_student/" + name);
 
     xhr.onreadystatechange = function () {
         if (xhr.status < 202 && xhr.readyState > 3) {
-            console.log("[+] Request sent success . . .");
-            var resp = JSON.parse(xhr.responseText);
+            var resp = JSON.parse(xhr.response);
             console.log(resp);
+            if (resp.status_code == "pass")
+                showInterface(1);
+            else showInterface(0);
         }
-
     }
     xhr.send();
 }
 
+
+var showInterface = function (state) {
+    var mainForm = d.getElementById("feedback-form");
+    var successMsg = d.getElementById("success-msg");
+    var errorMsg = d.getElementById("error-msg");
+
+    if (state == 1) {
+        mainForm.style.display = 'block';
+        successMsg.style.display = 'block';
+        errorMsg.style.display = 'none';
+    }
+    else if (state == 0) {
+        errorMsg.style.display = 'block';
+        mainForm.style.display = 'none';
+        successMsg.style.display = 'none';
+    }
+}
+
 </script>
-
-
-<!-- 
-
-1. Knowledge understanding
-    - criterion 1
-    - criterion 2
-
-2. Data handling / provlem solving
-    - use of data [to be rated]
-    - other parameter
-
- -->

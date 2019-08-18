@@ -1,5 +1,6 @@
 from database.config import db
 from flask import (
+    flash,
     Flask,
     make_response,
     redirect,
@@ -98,6 +99,7 @@ VALUES (
     except:
         return render_template("error.html")
 
+    flash("Last feedback was successfully submitted.")
     return redirect('/')
 
 

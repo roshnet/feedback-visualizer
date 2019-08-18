@@ -9,7 +9,7 @@
 </head>
 <body>
     <section class="section">
-        <div class="container box">
+        <div class="">
             <form action="/submit" method="POST" class="columns">
                 <div class="column is-4">
                     <div class="field">
@@ -24,30 +24,58 @@
                     </div>
                 </div>
 
-                <div class="column is-6 is-offset-2">
-                    <div class="field">
-                        <p class="control">
-                            AO-1 <input class="input" type="number" name="rate-ao1" min="0" max="100" placeholder="Rate 0-100"/>
-                        </p>
-                    </div>
-
-                    <div class="field">
-                        <p class="control">
-                            AO-2 <input class="input" type="number" name="rate-ao2" min="0" max="100" placeholder="Rate 0-100"/>
-                        </p>
-                    </div>
-
-                    <div class="field">
-                        <p class="control">
-                            AO-3 <input class="input" type="number" name="rate-ao3" min="0" max="100" placeholder="Rate 0-100"/>
-                        </p>
-                    </div>
-
+                <div class="column is-8">
+                    <table class="table box is-bordered is-narrow" style="overflow: scroll;">
+                        <thead>
+                            <th></th>
+                            <th>Assignment 1</th>
+                            <th>Assignment 2</th>
+                            <th>Final Assignment</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AO1</td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AO2</td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AO3</td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                                <td>
+                                    <input class="input" min="0" max="100" type="number" name="as-1-2">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="field">
                         <p class="control has-text-centered">
                             <button type="submit" class="button is-success">Submit Feedback</button>
                         </p>
-                    </div>
+                    </div> 
                 </div>
             </form>
         </div>

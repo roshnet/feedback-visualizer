@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block error %}
+
+<section class="section">
+    <div class="container">
+        <section class="hero box has-text-right is-dark is-bold">
+            <section class="hero-body">
+                <p class="subtitle has-text-info is-spaced is-3">
+                    Can't find the page :(
+                </p>
+                <p class="subtitle has-text-warning">
+                    That's a 404.
+                </p>
+            </section>
+            <p class="subtitle is-5 has-text-centered">
+                <a href="/">
+                    <button class="button is-dark is-bold">
+                        &lt;&lt; Head back to home page
+                    </button>
+                </a>
+            </p>
+        </section>
+    </div>
+</section>
+
+{% endblock %}

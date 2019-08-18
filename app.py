@@ -55,25 +55,36 @@ def fetch_student(name):
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    name = request.form['name']
-    ao1_a1 = request.form['ao1-a1']
-    ao1_a2 = request.form['ao1-a2']
-    ao1_a3 = request.form['ao1-a3']
-    ao2_a1 = request.form['ao2-a1']
-    ao2_a2 = request.form['ao2-a2']
-    ao2_a3 = request.form['ao2-a3']
-    ao3_a1 = request.form['ao3-a1']
-    ao3_a2 = request.form['ao3-a2']
-    ao3_a3=  request.form['ao3-a3']
+
+    # Prepare a mutable dict of `request.form`
+    form = {}
+    for key in request.form.keys():
+        form[key] = request.form[key]
+    
+    # Set all empty strings to '0'
+    for key in form.keys():
+        if form[key] == '':
+            form[key] = '0'
+
+    name = form['name']
+    ao1_a1 = form['ao1-a1']
+    ao1_a2 = form['ao1-a2']
+    ao1_a3 = form['ao1-a3']
+    ao2_a1 = form['ao2-a1']
+    ao2_a2 = form['ao2-a2']
+    ao2_a3 = form['ao2-a3']
+    ao3_a1 = form['ao3-a1']
+    ao3_a2 = form['ao3-a2']
+    ao3_a3=  form['ao3-a3']
 
     try:
         conn = mysql.connect()
         cur = conn.cursor()
         q = """
 INSERT INTO scores (student_id,
-                     ao1_a1, ao1_a2, ao1_a3,
-                     ao2_a1, ao2_a2, ao2_a3,
-                     ao3_a1, ao3_a2, ao3_a3)
+                    ao1_a1, ao1_a2, ao1_a3,
+                    ao2_a1, ao2_a2, ao2_a3,
+                    ao3_a1, ao3_a2, ao3_a3)
 VALUES (
     (SELECT id FROM students WHERE name=%s),
     %s, %s, %s, %s, %s, %s, %s, %s, %s

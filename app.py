@@ -57,24 +57,33 @@ def fetch_student(name):
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form['name']
-    ao1_score = request.form['rate-ao1']
-    ao2_score = request.form['rate-ao2']
-    ao3_score = request.form['rate-ao3']
+    ao1_a1 = request.form['ao1-a1']
+    ao1_a2 = request.form['ao1-a2']
+    ao1_a3 = request.form['ao1-a3']
+    ao2_a1 = request.form['ao2-a1']
+    ao2_a2 = request.form['ao2-a2']
+    ao2_a3 = request.form['ao2-a3']
+    ao3_a1 = request.form['ao3-a1']
+    ao3_a2 = request.form['ao3-a2']
+    ao3_a3=  request.form['ao3-a3']
 
     try:
         conn = mysql.connect()
         cur = conn.cursor()
         q = """
-INSERT INTO ratings (student_id, AO1, AO2, AO3)
+INSERT INTO scores (student_id,
+                     ao1_a1, ao1_a2, ao1_a3,
+                     ao2_a1, ao2_a2, ao2_a3,
+                     ao3_a1, ao3_a2, ao3_a3)
 VALUES (
     (SELECT id FROM students WHERE name=%s),
-    %s, %s, %s
+    %s, %s, %s, %s, %s, %s, %s, %s, %s
 );
         """
         cur.execute(q, (name,
-                        ao1_score,
-                        ao2_score,
-                        ao3_score))
+                        ao1_a1, ao1_a2, ao1_a3,
+                        ao2_a1, ao2_a2, ao2_a3,
+                        ao3_a1, ao3_a2, ao3_a3))
         conn.commit()
     except:
         return render_template("error.html")

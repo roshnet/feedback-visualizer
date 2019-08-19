@@ -48,9 +48,18 @@ INNER JOIN students
 ON scores.student_id = students.id;
     """
     cur.execute(q)
-    res = cur.fetchall()
-    print(res)
-    return render_template("temp.html", res=res)
+    rows = cur.fetchall()
+
+    # Create a template parsable dict
+    fields = [x[0] for x in cur.description]
+    records = []
+    for row in rows:
+        rec = {}
+        for i in range(len(fields)):
+            rec[fields[i]] = row[i]
+        records.append(rec)
+
+    return render_template("submissions.html", students=records)
 
 
 @app.route('/fetch_student/<name>', methods=['POST'])
@@ -120,7 +129,7 @@ VALUES (
         return render_template("error.html")
 
     flash("Last feedback was successfully submitted.")
-    return redirect('/')
+    return redirect('/feedback')
 
 
 if __name__ == "__main__":

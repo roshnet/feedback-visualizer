@@ -30,7 +30,27 @@ def page_not_found(error):
 
 @app.route('/')
 def home():
+    return render_template("index.html")
+
+
+@app.route('/feedback')
+def feedback():
     return render_template("add-student-info.html")
+
+
+@app.route('/viewall')
+def viewall():
+    cur = mysql.connect().cursor()
+    q = """
+SELECT name, ao1_a1, ao1_a2, ao1_a3, ao2_a1, ao2_a2, ao2_a3, ao3_a1, ao3_a2, ao3_a3
+FROM scores
+INNER JOIN students
+ON scores.student_id = students.id;
+    """
+    cur.execute(q)
+    res = cur.fetchall()
+    print(res)
+    return render_template("temp.html", res=res)
 
 
 @app.route('/fetch_student/<name>', methods=['POST'])

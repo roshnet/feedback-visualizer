@@ -1,103 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/css/bulma.css">
-    <title>Add Student Feedback</title>
-</head>
-<body>
-    <section class="section">
-        <form action="/submit" method="POST" class="columns">
-            <div class="column is-4">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="box has-text-primary">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-                {% endif %}
-                {% endwith %}
-                <div class="field">
-                    <p class="control">
-                        <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus/>
-                    </p>
-                </div>
+{% extends "layout.html" %}
+{% block core %}
+
+<section class="section">
+    <form action="/submit" method="POST" class="columns">
+        <div class="column is-4">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="box has-text-primary">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="field">
+                <p class="control">
+                    <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus/>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control has-text-centered">
+                    <a class="button is-info" onclick="selectStudent()">Select Student</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="column is-8">
+            <div class="box has-text-info" id="success-msg" style="display: none">
+                Everything looks good. You may now proceed to entering feedback.
+            </div>
+            <div class="box has-text-danger" id="error-msg" style="display: none">
+                No student found. Please enter the exact full name and try again.
+            </div>
+            <div id="feedback-form" style="display: none">
+                <table class="table box is-striped is-narrow is-fullwidth" style="overflow: scroll">
+                    <thead>
+                        <th></th>
+                        <th>Assignment 1</th>
+                        <th>Assignment 2</th>
+                        <th>Final Assignment</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AO1</td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao1-a1">
+                            </td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao1-a2">
+                            </td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao1-a3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>AO2</td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao2-a1">
+                            </td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao2-a2">
+                            </td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao2-a3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>AO3</td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao3-a1">
+                            </td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao3-a2">
+                            </td>
+                            <td>
+                                <input class="input" min="0" max="100" type="number" name="ao3-a3">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <div class="field">
                     <p class="control has-text-centered">
-                        <a class="button is-info" onclick="selectStudent()">Select Student</a>
+                        <button type="submit" class="button is-success">Submit Feedback</button>
                     </p>
                 </div>
             </div>
-
-            <div class="column is-8">
-                <div class="box has-text-info" id="success-msg" style="display: none">
-                    Everything looks good. You may now proceed to entering feedback.
-                </div>
-                <div class="box has-text-danger" id="error-msg" style="display: none">
-                    No student found. Please enter the exact full name and try again.
-                </div>
-                <div id="feedback-form" style="display: none">
-                    <table class="table box is-striped is-narrow is-fullwidth" style="overflow: scroll">
-                        <thead>
-                            <th></th>
-                            <th>Assignment 1</th>
-                            <th>Assignment 2</th>
-                            <th>Final Assignment</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>AO1</td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao1-a1">
-                                </td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao1-a2">
-                                </td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao1-a3">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>AO2</td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao2-a1">
-                                </td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao2-a2">
-                                </td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao2-a3">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>AO3</td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao3-a1">
-                                </td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao3-a2">
-                                </td>
-                                <td>
-                                    <input class="input" min="0" max="100" type="number" name="ao3-a3">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="field">
-                        <p class="control has-text-centered">
-                            <button type="submit" class="button is-success">Submit Feedback</button>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </section>
-</body>
-</html>
-
+        </div>
+    </form>
+</section>
 <script>
 
 var d = document;
@@ -140,3 +130,5 @@ var showInterface = function (state) {
 }
 
 </script>
+
+{% endblock %}

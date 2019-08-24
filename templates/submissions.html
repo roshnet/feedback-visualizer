@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block submissions %}
+
+<section class="section box">
+
+    {% for student in students %}
+
+        <h1 class="subtitle is-5">
+            {{ student.name }}
+        </h1>
+
+        <table class="table is-bordered" style="overflow: scroll">
+            <thead>
+                <th></th>
+                <th>Assignment 1</th>
+                <th>Assignment 2</th>
+                <th>Final Assignment</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>AO1</b></td>
+                    <td>{{ student.ao1_a1 }}</td>
+                    <td>{{ student.ao1_a2 }}</td>
+                    <td>{{ student.ao1_a3 }}</td>
+                </tr>
+                <tr>
+                    <td><b>AO2</b></td>
+                    <td>{{ student.ao2_a1 }}</td>
+                    <td>{{ student.ao2_a2 }}</td>
+                    <td>{{ student.ao2_a3 }}</td>
+                </tr>
+                <tr>
+                    <td><b>AO3</b></td>
+                    <td>{{ student.ao3_a1 }}</td>
+                    <td>{{ student.ao3_a2 }}</td>
+                    <td>{{ student.ao3_a3 }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

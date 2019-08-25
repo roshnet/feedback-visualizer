@@ -62,27 +62,6 @@ ON scores.student_id = students.id;
     return render_template("submissions.html", students=records)
 
 
-@app.route('/fetch_student/<name>', methods=['POST'])
-def fetch_student(name):
-    cur = mysql.connect().cursor()
-    q = "SELECT `id` FROM `students` WHERE `name`=%s"
-    cur.execute(q, name)
-    res = cur.fetchone()
-
-    if res:
-        resp = json.dumps({
-            "out": res[0],
-            "status_code": "pass"
-        })
-        return resp
-
-    resp = json.dumps({
-        "out": "Error - match not found",
-        "status_code": "fail"
-    })
-    return resp
-
-
 @app.route('/submit', methods=['POST'])
 def submit():
 
@@ -110,6 +89,12 @@ def submit():
     try:
         conn = mysql.connect()
         cur = conn.cursor()
+        q = """
+INSERT INTO students (name) VALUES (%s);
+        """
+        cur.execute(q, (name))
+        conn.commit()
+
         q = """
 INSERT INTO scores (student_id,
                     ao1_a1, ao1_a2, ao1_a3,

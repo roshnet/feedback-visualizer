@@ -20,18 +20,12 @@
             </div>
             <div class="field">
                 <p class="control has-text-centered">
-                    <a class="button is-info" onclick="selectStudent()">Select Student</a>
+                    <a class="button is-info" onclick="showInterface()">Proceed</a>
                 </p>
             </div>
         </div>
 
         <div class="column is-8">
-            <div class="box has-text-info" id="success-msg" style="display: none">
-                Everything looks good. You may now proceed to entering feedback.
-            </div>
-            <div class="box has-text-danger" id="error-msg" style="display: none">
-                No student found. Please enter the exact full name and try again.
-            </div>
             <div id="feedback-form" style="display: none">
                 <table class="table box is-striped is-narrow is-fullwidth" style="overflow: scroll">
                     <thead>
@@ -92,41 +86,9 @@
 
 var d = document;
 
-
-function selectStudent() {
-    var xhr = new XMLHttpRequest();
-    var name = d.getElementById("name").value;
-
-    xhr.open("POST", "http://localhost:5000/fetch_student/" + name);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.status < 202 && xhr.readyState > 3) {
-            var resp = JSON.parse(xhr.response);
-            console.log(resp);
-            if (resp.status_code == "pass")
-                showInterface(1);
-            else showInterface(0);
-        }
-    }
-    xhr.send();
-}
-
-
-var showInterface = function (state) {
+var showInterface = function () {
     var mainForm = d.getElementById("feedback-form");
-    var successMsg = d.getElementById("success-msg");
-    var errorMsg = d.getElementById("error-msg");
-
-    if (state == 1) {
-        mainForm.style.display = 'block';
-        successMsg.style.display = 'block';
-        errorMsg.style.display = 'none';
-    }
-    else if (state == 0) {
-        errorMsg.style.display = 'block';
-        mainForm.style.display = 'none';
-        successMsg.style.display = 'none';
-    }
+    mainForm.style.display = 'block';
 }
 
 </script>

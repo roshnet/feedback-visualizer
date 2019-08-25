@@ -132,5 +132,31 @@ VALUES (
     return redirect('/feedback')
 
 
+@app.route('/new', methods=['POST', 'GET'])
+def register_new():
+    if request.method == 'GET':
+        return render_template("new-student.html")
+
+    newname = request.form['newname']
+    conn = mysql.connect()
+    cur = conn.cursor()
+    q = "SELECT id FROM students WHERE name=%s"
+    cur.execute(q, (newname))
+    result = cur.fetchone()
+
+    if result:
+        return render_template("new-student.html",
+                               status='0')
+
+    q = "INSERT INTO students (name) VALUES (%s)"
+    try:
+        cur.execute(q, (newname))
+        conn.commit()
+        return render_template("new-student.html",
+                               status='1')
+    except:
+        return render_template("error.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

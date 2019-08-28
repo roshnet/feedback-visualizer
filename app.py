@@ -10,6 +10,7 @@ from flask import (
 from flaskext.mysql import MySQL
 import json
 import os
+import pdfkit
 
 
 app = Flask(__name__)
@@ -86,7 +87,7 @@ def submit():
     ao2_a3 = form['ao2-a3']
     ao3_a1 = form['ao3-a1']
     ao3_a2 = form['ao3-a2']
-    ao3_a3=  form['ao3-a3']
+    ao3_a3 = form['ao3-a3']
 
     try:
         conn = mysql.connect()
@@ -116,9 +117,15 @@ VALUES (
         print(e)
         return render_template("error.html")
 
-    flash("Last feedback was successfully submitted.")
-    return redirect('/feedback')
+    # Prepare download
+    template = render_template("pdf.html")
+    css = ['static/css/bulma.css']
+    report = pdfkit.from_string(template, False, css=css)
+    resp = make_response(report)
+    resp.headers['Content-Type'] = 'application.pdf'
+    resp.headers['Content-Disposition'] = 'attachment; filename={}.pdf'.format(name)
 
+    return resp
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -74,7 +74,7 @@ def submit():
     form = {}
     for key in request.form.keys():
         form[key] = request.form[key]
-    
+
     # Set all empty strings to '0'
     for key in form.keys():
         if form[key] == '':
@@ -147,7 +147,3 @@ VALUES (
     resp.headers['Content-Disposition'] = 'attachment; filename={}.pdf'.format(name)
 
     return resp
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

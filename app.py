@@ -76,6 +76,8 @@ def submit():
             form[key] = '0'
 
     name = form['name']
+    std = form['std']
+    pastpaper = form['pastpaper']
     ao1_a1 = form['ao1-a1']
     ao1_a2 = form['ao1-a2']
     ao1_a3 = form['ao1-a3']
@@ -90,9 +92,9 @@ def submit():
         conn = mysql.connect()
         cur = conn.cursor()
         q = """
-INSERT INTO students (name) VALUES (%s);
+INSERT INTO students (name, standard, pastpaper) VALUES (%s, %s, %s);
         """
-        cur.execute(q, (name))
+        cur.execute(q, (name, std, pastpaper))
         conn.commit()
 
         q = """
@@ -110,7 +112,8 @@ VALUES (
                         ao2_a1, ao2_a2, ao2_a3,
                         ao3_a1, ao3_a2, ao3_a3))
         conn.commit()
-    except:
+    except Exception as e:
+        print(e)
         return render_template("error.html")
 
     flash("Last feedback was successfully submitted.")

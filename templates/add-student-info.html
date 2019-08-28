@@ -15,7 +15,17 @@
             {% endwith %}
             <div class="field">
                 <p class="control">
-                    <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus/>
+                    <input class="input" type="text" name="name" id="name" placeholder="Full name of the student" autofocus required/>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control">
+                    <input class="input" type="text" name="std" placeholder="Current Standard"/>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control">
+                    <input class="input" type="text" name="pastpaper" placeholder="Assignment/Worksheet/ECQ/Workbook/Past Paper"/>
                 </p>
             </div>
             <div class="field">
@@ -38,13 +48,13 @@
                         <tr>
                             <td>AO1</td>
                             <td>
-                                <input class="input" min="0" max="100" type="number" name="ao1-a1">
+                                <input class="input" min="0" max="100" type="number" name="ao1-a1" required>
                             </td>
                             <td>
-                                <input class="input" min="0" max="100" type="number" name="ao1-a2">
+                                <input class="input" min="0" max="100" type="number" name="ao1-a2" required>
                             </td>
                             <td>
-                                <input class="input" min="0" max="100" type="number" name="ao1-a3">
+                                <input class="input" min="0" max="100" type="number" name="ao1-a3" required>
                             </td>
                         </tr>
                         <tr>
@@ -88,7 +98,9 @@ var d = document;
 
 var showInterface = function () {
     var mainForm = d.getElementById("feedback-form");
-    mainForm.style.display = 'block';
+    var nameField = d.getElementById("name");
+    if (nameField.value != "")
+        mainForm.style.display = 'block';
 }
 
 </script>

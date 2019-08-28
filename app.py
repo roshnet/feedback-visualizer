@@ -10,6 +10,8 @@ from flask import (
 from flaskext.mysql import MySQL
 import json
 import os
+import pdfkit
+from phrases import set_remarks
 
 
 app = Flask(__name__)
@@ -42,7 +44,10 @@ def feedback():
 def viewall():
     cur = mysql.connect().cursor()
     q = """
-SELECT name, ao1_a1, ao1_a2, ao1_a3, ao2_a1, ao2_a2, ao2_a3, ao3_a1, ao3_a2, ao3_a3
+SELECT name,
+ao1_a1, ao1_a2, ao1_a3,
+ao2_a1, ao2_a2, ao2_a3,
+ao3_a1, ao3_a2, ao3_a3
 FROM scores
 INNER JOIN students
 ON scores.student_id = students.id;
@@ -86,7 +91,7 @@ def submit():
     ao2_a3 = form['ao2-a3']
     ao3_a1 = form['ao3-a1']
     ao3_a2 = form['ao3-a2']
-    ao3_a3=  form['ao3-a3']
+    ao3_a3 = form['ao3-a3']
 
     try:
         conn = mysql.connect()
@@ -112,12 +117,36 @@ VALUES (
                         ao2_a1, ao2_a2, ao2_a3,
                         ao3_a1, ao3_a2, ao3_a3))
         conn.commit()
-    except Exception as e:
-        print(e)
+    except:
         return render_template("error.html")
 
-    flash("Last feedback was successfully submitted.")
-    return redirect('/feedback')
+    # Prepare download
+    remarks = set_remarks(ao1=[ao1_a1, ao1_a2, ao1_a3],
+                          ao2=[ao2_a1, ao2_a2, ao2_a3])
+
+    ao1 = {
+        'a1': ao1_a1,
+        'a2': ao1_a2,
+        'a3': ao1_a3
+    }
+    ao2 = {
+        'a1': ao2_a1,
+        'a2': ao2_a2,
+        'a3': ao2_a3
+    }
+    template = render_template("pdf.html",
+                               name=name,
+                               std=std,
+                               ao1=ao1,
+                               ao2=ao2,
+                               pastpaper=pastpaper,
+                               remarks=remarks)
+    report = pdfkit.from_string(template, False, css=['static/css/bulma.css'])
+    resp = make_response(report)
+    resp.headers['Content-Type'] = 'application/pdf'
+    resp.headers['Content-Disposition'] = 'attachment; filename={}.pdf'.format(name)
+
+    return resp
 
 
 if __name__ == "__main__":

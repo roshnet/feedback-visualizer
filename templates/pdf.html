@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Student Report PDF</title>
+    </head>
+<body>
+
+    <h2 class="subtitle is-4">Assessment for Learning</h2>
+
+    <h1 class="subtitle is-3" align="center">IGCSE PHYSICS (0625) - Assignment Feedback Sheet</h1>
+
+    <br>
+    <br>
+
+    <p class="title is-4"><b>Student's Name </b> - {{ name }} </p>
+    {% if pastpaper %}
+    <p class="title is-4">
+        <b>Assignment/worksheet/ECQ/Workbook/past paper</b> - {{ pastpaper}}
+    </p>
+    {% endif %}
+    {% if std %}
+    <p class="title is-4">
+        <b>Year / Class - </b> {{ std }}
+    </p>
+    {% endif %}
+    <br>
+
+    <table border="0" width="100%" align="center" class="table box" style="overflow: scroll;">
+        <thead>
+            <tr>
+                <th width="55%"> </th>
+                <th width="15%" align="center">Assignment 1</th>
+                <th width="15%" align="center">Assignment 2</th>
+                <th width="15%" align="center">Final</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="55%" align="center">
+                    <span class="title is-4">AO1: KNOWLEDGE WITH UNDERSTANDING</span>
+                </td>
+                <td width="15%">Score (max 25)</td>
+                <td width="15%">Score (max 25)</td>
+                <td width="15%">Score (max 25)</td>
+            </tr>
+            <tr>
+                <td width="55%">{{remarks.ao1}}</td>
+                <td width="15%">{{ ao1.a1 }}</td>
+                <td width="15%">{{ ao1.a2 }}</td>
+                <td width="15%">{{ ao1.a3 }}</td>
+            </tr>
+            <tr>
+                <td width="55%" align="center">
+                    <span class="title is-4">AO2: HANDLING INFORMATION AND PROBLEM SOLVING</span>
+                </td>
+                <td width="15%">Score (max 25)</td>
+                <td width="15%">Score (max 25)</td>
+                <td width="15%">Score (max 25)</td>
+            </tr>
+            <tr>
+                <td width="55%">{{remarks.ao2}}</td>
+                <td width="15%">{{ ao2.a1 }}</td>
+                <td width="15%">{{ ao2.a2 }}</td>
+                <td width="15%">{{ ao2.a3 }}</td>
+            </tr>
+            <tr>
+                <td width="55%" style="text-align: right">
+                    <b>TOTAL</b>
+                </td>
+                <td width="15%">{{ ao1.a1|int + ao2.a1|int }}</td>
+                <td width="15%">{{ ao1.a2|int + ao2.a2|int }}</td>
+                <td width="15%">{{ ao1.a3|int + ao2.a3|int }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
